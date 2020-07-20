@@ -66,6 +66,8 @@
             {% csrf_token %}
             <input type="hidden" />
           </form>
+          <a class="nav-item nav-link" href="{% url 'create' %}" >Create</a>
+
           {% else %}
           <a class="nav-item nav-link" href="{% url 'signup' %}" >Sign Up</a>
           <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
