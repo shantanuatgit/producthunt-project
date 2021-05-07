@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<br/>
+<hr>
+<h5>YOUR SUBMITTED ARTICLES</h5>
+<hr>
+<br/>
+{% for article in articles %}
+
+<div class="row pt-3">
+  <div class="col-2" onclick="window.location='{% url 'detail' article.id %}' ;" style="cursor: pointer;">
+    <img src="{{ article.image.url }}" class="img-fluid"/>
+  </div>
+  <br/>
+  <div class="col-6" onclick="window.location='{% url 'detail' article.id %}' ;" style="cursor: pointer;">
+    <h5>{{ article.title }}</h5>
+    <p>{{ article.summary }}. . . . . . .</p>
+
+    </div>
+    <div class="row pt-3">
+    <div class ="col pt-9" onclick="window.location='{% url 'edit' article.id article.id %}' ;" style="cursor: pointer;">
+      <img src="{% static 'edit.png' %}" height=23 width=23 /></div>
+      </div>
+      <div class="col pt-3">
+    <div class ="col pt-9" onclick="window.location='{% url 'delete' article.id %}' ;" style="cursor: pointer;">
+      <img src="{% static 'delete.png' %}" height=22 width=22 /></div>
+      </div>
+
+
+
+</div>
+<hr>
+{% endfor %}
+
+
+{% if articles %}
+<nav aria-label="Page navigation example text-center">
+  <ul  class="pagination justify-content-center">
+  <ul  class="pagination">
+    <li class="page-item">
+      {% if articles.has_previous %}
+        <a class="page-link" href="?page={{ articles.previous_page_number }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        {% endif %}
+        </a>
+    </li>
+    {% for i in articles.paginator.page_range %}
+    {% if articles.number == i %}
+      <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+      {% elif i < articles.number|add:'4' and i > articles.number|add:'-4' %}
+      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+
+    {% endif %}
+    {% endfor %}
+    <li class="page-item">
+      {% if articles.has_next %}
+      <a class="page-link" href="?page={{ articles.next_page_number }}" aria-label="Next">
+
+        <span aria-hidden="true">&raquo;</span>
+        {% endif %}
+      </a>
+    </li>
+  </ul>
+</ul>
+</nav>
+
+{% endif %}
+
+{% endblock %}

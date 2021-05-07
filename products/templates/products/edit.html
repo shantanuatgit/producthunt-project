@@ -36,7 +36,7 @@
 
 
 
-  <h1>Create</h1>
+  <h1>Edit</h1>
   {% if error %}
   <br/>
   {{error}}
@@ -44,29 +44,30 @@
   <br/>
   {% endif %}
 
-
-  <form method="POST" action="{% url 'create' %}" enctype="multipart/form-data">
+{% for article in articles.all %}
+  <form method="POST" action="{% url 'edit' article.id article.id %}" enctype="multipart/form-data">
   {% csrf_token %}
   Title:
   <br/>
-  <input type="text" name="title" size="79" required/>
+  <input type="text" name="title" value="{{ article.title }}" size="79" required/>
   <br/>
   <br/>
   Discription:
   <br/>
-  <textarea name="body" rows="12" cols="82" required></textarea>
+  <textarea name="body" type="text" rows="12" cols="82" required>{{ article.body }}</textarea>
   <br/>
   <br/>
   <br/>
   <input type="file" name="image" accept="image/*" required onchange="readURL(this);" />
   <br/>
   <br/>
-    <img id="blah" src="http://via.placeholder.com/600x300" alt="your image" />  <br/>
+    <img id="blah" src="{{ article.image.url }}" width="600" height="300" alt="your image" />  <br/>
   <br/>
 
-  <input type="submit" class="btn btn-primary" value="Publish"/>
+  <input type="submit" class="btn btn-primary" value="Edit"/>
   </form>
 
 </body>
 </html>
+{% endfor %}
 {% endblock %}
